@@ -27,5 +27,5 @@ python Trainer.py --data_root=your/path/to/dataset
 ```
 ## Test
 ```
-python Test.py --data_root=your/path/to/dataset
+python Test.py --data_root=your/path/to/dataset --load_epoch=150
 ```
