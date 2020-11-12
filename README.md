@@ -23,9 +23,9 @@ Put the "test_data_list.txt" under the same directory with "training_labels.csv"
 
 ## Train
 ```
-python Trainer.py data_root=your/path/to/dataset
+python Trainer.py --data_root=your/path/to/dataset
 ```
 ## Test
 ```
-python Test.py data_root=your/path/to/dataset
+python Test.py --data_root=your/path/to/dataset
 ```
