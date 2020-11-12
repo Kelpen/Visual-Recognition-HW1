@@ -2,26 +2,38 @@ import torch
 
 from torchvision.transforms import transforms
 from torch.utils.data.dataloader import DataLoader
+from argparse import ArgumentParser
 
 import Models
 import Dataset
 
 import csv
 
+
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument("data_root", help="Where you can find training_labels.csv")
+    parser.add_argument("load_epoch", help="Which epoch you want to load.")
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == '__main__':
+    args = parse_args()
+    load_epoch = args.load_epoch
+    DATA_ROOT = args.data_root
+
     # ----- Model ----- #
-    model = torch.load('checkpoints_eff_sam_b1_rms/checkpoint_%04d.pth' % 25).cuda().eval()
-    #model = Models.DN_Classifier()
+    model = torch.load('checkpoints/checkpoint_%04d.pth' % load_epoch).cuda().eval()
+
     # ----- Data Loader ----- #
     preprocess_test = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((300, 300)),
         transforms.ToTensor(),
     ])
-    # train_mask = val_mask
-    DATA_ROOT = 'E:/Datasets/Homeworks/cs-t0828-2020-hw1/'
     dataset = Dataset.T0828_HW1_Train(DATA_ROOT, None)
     dataset_test = Dataset.T0828_HW1_Test(DATA_ROOT, preprocess_test)
-    data_loader = DataLoader(dataset_test, batch_size=32, num_workers=8)
+    data_loader = DataLoader(dataset_test, batch_size=32, num_workers=4)
 
     with open('output.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
@@ -32,8 +44,4 @@ if __name__ == '__main__':
 
             for label, img_id in zip(pred_labels, ids):
                 writer.writerow([img_id, dataset.id_2_label[torch.argmax(label)]])
-    # print(label_list)
-
-
-
-
+    print('Output is saved to output.csv')
