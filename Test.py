@@ -12,8 +12,9 @@ import csv
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("data_root", help="Where you can find training_labels.csv")
-    parser.add_argument("load_epoch", help="Which epoch you want to load.")
+    parser.add_argument('--data_root', dest="data_root", help="Where you can find training_labels.csv")
+    parser.add_argument("--load_epoch", dest="load_epoch",
+                        help="Which epoch you want to load. Only meaningful when load is True")
     args = parser.parse_args()
     return args
 

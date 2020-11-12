@@ -20,9 +20,9 @@ from argparse import ArgumentParser
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("data_root", help="Where you can find training_labels.csv")
-    parser.add_argument("load", help="Weather to load previously trained models", default='False')
-    parser.add_argument("load_epoch", help="Which epoch you want to load. Only meaningful when load is True")
+    parser.add_argument('--data_root', dest="data_root", help="Where you can find training_labels.csv")
+    parser.add_argument('--load', dest="load", help="Weather to load previously trained models", default='False')
+    parser.add_argument("--load_epoch", dest="load_epoch", help="Which epoch you want to load. Only meaningful when load is True")
     args = parser.parse_args()
     return args
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     if LOAD:
         start_epoch = int(args.load_epoch)
-        model = torch.load('checkpoints_eff_sam/checkpoint_%04d.pth' % start_epoch).cuda()
+        model = torch.load('checkpoints/checkpoint_%04d.pth' % start_epoch).cuda()
     else:
         start_epoch = 0
         ### Modify model here ###
@@ -67,8 +67,8 @@ if __name__ == '__main__':
 
     # ---------- Optimizer ---------- #
     base_optimizer = optim.Adam
-    # base_optimizer = optim.RMSprop
-    optimizer = SAM(model.parameters(), base_optimizer, lr=0.00001)
+    # base_optimizer = optim.SGD
+    optimizer = SAM(model.parameters(), base_optimizer, lr=0.000005)
 
     loss_function = CrossEntropyLoss()
 
