@@ -62,13 +62,13 @@ if __name__ == '__main__':
     # Data Loader #
     dataset = Dataset.T0828_HW1_Train(DATA_ROOT, preprocess, train_mask)
     dataset_val = Dataset.T0828_HW1_Train(DATA_ROOT, preprocess_val, val_mask)
-    data_loader = DataLoader(dataset, batch_size=16, num_workers=2, drop_last=True, shuffle=True)
-    val_data_loader = DataLoader(dataset_val, batch_size=16, num_workers=2, drop_last=True, shuffle=True)
+    data_loader = DataLoader(dataset, batch_size=8, num_workers=2, drop_last=True, shuffle=True)
+    val_data_loader = DataLoader(dataset_val, batch_size=8, num_workers=2, drop_last=True, shuffle=True)
 
     # ---------- Optimizer ---------- #
     base_optimizer = optim.Adam
     # base_optimizer = optim.SGD
-    optimizer = SAM(model.parameters(), base_optimizer, lr=0.000005)
+    optimizer = SAM(model.parameters(), base_optimizer, lr=0.00001, weight_decay=1.e-6)
 
     loss_function = CrossEntropyLoss()
 
