@@ -93,7 +93,7 @@ if __name__ == '__main__':
             if counter % 100 == 0:  # print current status
                 t2 = time.process_time()
                 pred_label = torch.argmax(pred_scores.detach(), dim=1).cpu()
-                acc = pred_label.eq(gt_label).sum() / 16.0
+                acc = pred_label.eq(gt_label).sum() / 8.0
                 print(epoch, counter, 'time', t2 - t1, 'loss:', loss.detach().cpu(), acc)
                 t1 = t2
             counter += 1
